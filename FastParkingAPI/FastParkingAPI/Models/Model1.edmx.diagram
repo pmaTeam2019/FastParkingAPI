@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f23bbf099bcf440e9db729a1d93e03b2" Name="Diagram1">
+        <EntityTypeShape EntityType="FastParkModel.CalculationType" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.Customer" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.OwnerCalculationType" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.OwnerPaymentType" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.Owner" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.Payment" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.PaymentType" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.Reservation" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastParkModel.Slot" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <AssociationConnector Association="FastParkModel.FK_EstablismentCalculationType_CalculationType" ManuallyRouted="false" />
+        <AssociationConnector Association="FastParkModel.FK_Reservations_Drivers" ManuallyRouted="false" />
+        <AssociationConnector Association="FastParkModel.FK_EstablismentCalculationType_Establishments" ManuallyRouted="false" />
+        <AssociationConnector Association="FastParkModel.FK_EstablismentPayments_Establishments" ManuallyRouted="false" />
+        <AssociationConnector Association="FastParkModel.FK_EstablismentPayments_PaymentType" ManuallyRouted="false" />
+        <AssociationConnector Association="FastParkModel.FK_Slots_Establishments" ManuallyRouted="false" />
+        <AssociationConnector Association="FastParkModel.FK_Payments_Reservations" ManuallyRouted="false" />
+        <AssociationConnector Association="FastParkModel.FK_Reservations_Slots" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

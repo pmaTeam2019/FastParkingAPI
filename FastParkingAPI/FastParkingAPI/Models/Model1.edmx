@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FastParkModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CalculationTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="ActiveField" Type="bit" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Dni" Type="varchar" MaxLength="8" />
+          <Property Name="Ruc" Type="varchar" MaxLength="11" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" />
+          <Property Name="ActiveField" Type="bit" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Password" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="OwnerCalculationTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="CalculationTypeId" Type="int" Nullable="false" />
+          <Property Name="ActiveField" Type="bit" />
+          <Property Name="Price" Type="float" />
+        </EntityType>
+        <EntityType Name="OwnerPaymentTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="PaymentTypeId" Type="int" Nullable="false" />
+          <Property Name="ActiveField" Type="bit" />
+        </EntityType>
+        <EntityType Name="Owners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" />
+          <Property Name="Address" Type="varchar" MaxLength="250" />
+          <Property Name="SlotsQuantity" Type="int" />
+          <Property Name="isAvailable" Type="bit" />
+          <Property Name="Ruc" Type="varchar" MaxLength="11" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="ActiveField" Type="bit" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Password" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReservationId" Type="int" Nullable="false" />
+          <Property Name="PaymentTypeId" Type="int" Nullable="false" />
+          <Property Name="ReceivedDate" Type="date" />
+          <Property Name="TotalAmount" Type="float" />
+          <Property Name="ActiveField" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="ActiveField" Type="bit" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SlotId" Type="int" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="OwnerId" Type="int" />
+          <Property Name="StartReservationDate" Type="datetime" />
+          <Property Name="EndReservationDate" Type="datetime" />
+          <Property Name="isActive" Type="bit" />
+          <Property Name="ActiveField" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Slots">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="isAvailable" Type="bit" />
+          <Property Name="ActiveField" Type="bit" />
+          <Property Name="Identifier" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_EstablismentCalculationType_CalculationType">
+          <End Role="CalculationTypes" Type="Self.CalculationTypes" Multiplicity="1" />
+          <End Role="OwnerCalculationTypes" Type="Self.OwnerCalculationTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CalculationTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerCalculationTypes">
+              <PropertyRef Name="CalculationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstablismentCalculationType_Establishments">
+          <End Role="Owners" Type="Self.Owners" Multiplicity="1" />
+          <End Role="OwnerCalculationTypes" Type="Self.OwnerCalculationTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerCalculationTypes">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstablismentPayments_Establishments">
+          <End Role="Owners" Type="Self.Owners" Multiplicity="1" />
+          <End Role="OwnerPaymentTypes" Type="Self.OwnerPaymentTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerPaymentTypes">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstablismentPayments_PaymentType">
+          <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="1" />
+          <End Role="OwnerPaymentTypes" Type="Self.OwnerPaymentTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerPaymentTypes">
+              <PropertyRef Name="PaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Reservations">
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="ReservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Drivers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Slots">
+          <End Role="Slots" Type="Self.Slots" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Slots">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Slots_Establishments">
+          <End Role="Owners" Type="Self.Owners" Multiplicity="1" />
+          <End Role="Slots" Type="Self.Slots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Slots">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FastParkModelStoreContainer">
+          <EntitySet Name="CalculationTypes" EntityType="Self.CalculationTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OwnerCalculationTypes" EntityType="Self.OwnerCalculationTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OwnerPaymentTypes" EntityType="Self.OwnerPaymentTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Owners" EntityType="Self.Owners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Slots" EntityType="Self.Slots" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EstablismentCalculationType_CalculationType" Association="Self.FK_EstablismentCalculationType_CalculationType">
+            <End Role="CalculationTypes" EntitySet="CalculationTypes" />
+            <End Role="OwnerCalculationTypes" EntitySet="OwnerCalculationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstablismentCalculationType_Establishments" Association="Self.FK_EstablismentCalculationType_Establishments">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="OwnerCalculationTypes" EntitySet="OwnerCalculationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstablismentPayments_Establishments" Association="Self.FK_EstablismentPayments_Establishments">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="OwnerPaymentTypes" EntitySet="OwnerPaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstablismentPayments_PaymentType" Association="Self.FK_EstablismentPayments_PaymentType">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="OwnerPaymentTypes" EntitySet="OwnerPaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Reservations" Association="Self.FK_Payments_Reservations">
+            <End Role="Reservations" EntitySet="Reservations" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Drivers" Association="Self.FK_Reservations_Drivers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Slots" Association="Self.FK_Reservations_Slots">
+            <End Role="Slots" EntitySet="Slots" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Slots_Establishments" Association="Self.FK_Slots_Establishments">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="Slots" EntitySet="Slots" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FastParkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CalculationType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ActiveField" Type="Boolean" />
+          <NavigationProperty Name="OwnerCalculationTypes" Relationship="Self.FK_EstablismentCalculationType_CalculationType" FromRole="CalculationTypes" ToRole="OwnerCalculationTypes" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Dni" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Ruc" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ActiveField" Type="Boolean" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_Drivers" FromRole="Customers" ToRole="Reservations" />
+        </EntityType>
+        <EntityType Name="OwnerCalculationType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="CalculationTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ActiveField" Type="Boolean" />
+          <Property Name="Price" Type="Double" />
+          <NavigationProperty Name="CalculationType" Relationship="Self.FK_EstablismentCalculationType_CalculationType" FromRole="OwnerCalculationTypes" ToRole="CalculationTypes" />
+          <NavigationProperty Name="Owner" Relationship="Self.FK_EstablismentCalculationType_Establishments" FromRole="OwnerCalculationTypes" ToRole="Owners" />
+        </EntityType>
+        <EntityType Name="OwnerPaymentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ActiveField" Type="Boolean" />
+          <NavigationProperty Name="Owner" Relationship="Self.FK_EstablismentPayments_Establishments" FromRole="OwnerPaymentTypes" ToRole="Owners" />
+          <NavigationProperty Name="PaymentType" Relationship="Self.FK_EstablismentPayments_PaymentType" FromRole="OwnerPaymentTypes" ToRole="PaymentTypes" />
+        </EntityType>
+        <EntityType Name="Owner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="SlotsQuantity" Type="Int32" />
+          <Property Name="isAvailable" Type="Boolean" />
+          <Property Name="Ruc" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ActiveField" Type="Boolean" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OwnerCalculationTypes" Relationship="Self.FK_EstablismentCalculationType_Establishments" FromRole="Owners" ToRole="OwnerCalculationTypes" />
+          <NavigationProperty Name="OwnerPaymentTypes" Relationship="Self.FK_EstablismentPayments_Establishments" FromRole="Owners" ToRole="OwnerPaymentTypes" />
+          <NavigationProperty Name="Slots" Relationship="Self.FK_Slots_Establishments" FromRole="Owners" ToRole="Slots" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReservationId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
+          <Property Name="TotalAmount" Type="Double" />
+          <Property Name="ActiveField" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Payments_Reservations" FromRole="Payments" ToRole="Reservations" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ActiveField" Type="Boolean" />
+          <NavigationProperty Name="OwnerPaymentTypes" Relationship="Self.FK_EstablismentPayments_PaymentType" FromRole="PaymentTypes" ToRole="OwnerPaymentTypes" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SlotId" Type="Int32" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="StartReservationDate" Type="DateTime" Precision="3" />
+          <Property Name="EndReservationDate" Type="DateTime" Precision="3" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="ActiveField" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Reservations_Drivers" FromRole="Reservations" ToRole="Customers" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payments_Reservations" FromRole="Reservations" ToRole="Payments" />
+          <NavigationProperty Name="Slot" Relationship="Self.FK_Reservations_Slots" FromRole="Reservations" ToRole="Slots" />
+        </EntityType>
+        <EntityType Name="Slot">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="isAvailable" Type="Boolean" />
+          <Property Name="ActiveField" Type="Boolean" />
+          <Property Name="Identifier" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Owner" Relationship="Self.FK_Slots_Establishments" FromRole="Slots" ToRole="Owners" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_Slots" FromRole="Slots" ToRole="Reservations" />
+        </EntityType>
+        <Association Name="FK_EstablismentCalculationType_CalculationType">
+          <End Role="CalculationTypes" Type="Self.CalculationType" Multiplicity="1" />
+          <End Role="OwnerCalculationTypes" Type="Self.OwnerCalculationType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CalculationTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerCalculationTypes">
+              <PropertyRef Name="CalculationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Drivers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstablismentCalculationType_Establishments">
+          <End Role="Owners" Type="Self.Owner" Multiplicity="1" />
+          <End Role="OwnerCalculationTypes" Type="Self.OwnerCalculationType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerCalculationTypes">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstablismentPayments_Establishments">
+          <End Role="Owners" Type="Self.Owner" Multiplicity="1" />
+          <End Role="OwnerPaymentTypes" Type="Self.OwnerPaymentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerPaymentTypes">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstablismentPayments_PaymentType">
+          <End Role="PaymentTypes" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="OwnerPaymentTypes" Type="Self.OwnerPaymentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OwnerPaymentTypes">
+              <PropertyRef Name="PaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Slots_Establishments">
+          <End Role="Owners" Type="Self.Owner" Multiplicity="1" />
+          <End Role="Slots" Type="Self.Slot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Slots">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Reservations">
+          <End Role="Reservations" Type="Self.Reservation" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="ReservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Slots">
+          <End Role="Slots" Type="Self.Slot" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Slots">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FastParkingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CalculationTypes" EntityType="Self.CalculationType" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="OwnerCalculationTypes" EntityType="Self.OwnerCalculationType" />
+          <EntitySet Name="OwnerPaymentTypes" EntityType="Self.OwnerPaymentType" />
+          <EntitySet Name="Owners" EntityType="Self.Owner" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <EntitySet Name="Slots" EntityType="Self.Slot" />
+          <AssociationSet Name="FK_EstablismentCalculationType_CalculationType" Association="Self.FK_EstablismentCalculationType_CalculationType">
+            <End Role="CalculationTypes" EntitySet="CalculationTypes" />
+            <End Role="OwnerCalculationTypes" EntitySet="OwnerCalculationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Drivers" Association="Self.FK_Reservations_Drivers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstablismentCalculationType_Establishments" Association="Self.FK_EstablismentCalculationType_Establishments">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="OwnerCalculationTypes" EntitySet="OwnerCalculationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstablismentPayments_Establishments" Association="Self.FK_EstablismentPayments_Establishments">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="OwnerPaymentTypes" EntitySet="OwnerPaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstablismentPayments_PaymentType" Association="Self.FK_EstablismentPayments_PaymentType">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="OwnerPaymentTypes" EntitySet="OwnerPaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Slots_Establishments" Association="Self.FK_Slots_Establishments">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="Slots" EntitySet="Slots" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Reservations" Association="Self.FK_Payments_Reservations">
+            <End Role="Reservations" EntitySet="Reservations" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Slots" Association="Self.FK_Reservations_Slots">
+            <End Role="Slots" EntitySet="Slots" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FastParkModelStoreContainer" CdmEntityContainer="FastParkingEntities">
+          <EntitySetMapping Name="CalculationTypes">
+            <EntityTypeMapping TypeName="FastParkModel.CalculationType">
+              <MappingFragment StoreEntitySet="CalculationTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="FastParkModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OwnerCalculationTypes">
+            <EntityTypeMapping TypeName="FastParkModel.OwnerCalculationType">
+              <MappingFragment StoreEntitySet="OwnerCalculationTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="CalculationTypeId" ColumnName="CalculationTypeId" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OwnerPaymentTypes">
+            <EntityTypeMapping TypeName="FastParkModel.OwnerPaymentType">
+              <MappingFragment StoreEntitySet="OwnerPaymentTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Owners">
+            <EntityTypeMapping TypeName="FastParkModel.Owner">
+              <MappingFragment StoreEntitySet="Owners">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="SlotsQuantity" ColumnName="SlotsQuantity" />
+                <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+                <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="FastParkModel.Payment">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ReservationId" ColumnName="ReservationId" />
+                <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="FastParkModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="FastParkModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SlotId" ColumnName="SlotId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="StartReservationDate" ColumnName="StartReservationDate" />
+                <ScalarProperty Name="EndReservationDate" ColumnName="EndReservationDate" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Slots">
+            <EntityTypeMapping TypeName="FastParkModel.Slot">
+              <MappingFragment StoreEntitySet="Slots">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+                <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+                <ScalarProperty Name="Identifier" ColumnName="Identifier" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

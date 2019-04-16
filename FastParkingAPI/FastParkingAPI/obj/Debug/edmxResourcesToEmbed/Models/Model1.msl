@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FastParkModelStoreContainer" CdmEntityContainer="FastParkingEntities">
+    <EntitySetMapping Name="CalculationTypes">
+      <EntityTypeMapping TypeName="FastParkModel.CalculationType">
+        <MappingFragment StoreEntitySet="CalculationTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="FastParkModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OwnerCalculationTypes">
+      <EntityTypeMapping TypeName="FastParkModel.OwnerCalculationType">
+        <MappingFragment StoreEntitySet="OwnerCalculationTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+          <ScalarProperty Name="CalculationTypeId" ColumnName="CalculationTypeId" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OwnerPaymentTypes">
+      <EntityTypeMapping TypeName="FastParkModel.OwnerPaymentType">
+        <MappingFragment StoreEntitySet="OwnerPaymentTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+          <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Owners">
+      <EntityTypeMapping TypeName="FastParkModel.Owner">
+        <MappingFragment StoreEntitySet="Owners">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="SlotsQuantity" ColumnName="SlotsQuantity" />
+          <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+          <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="FastParkModel.Payment">
+        <MappingFragment StoreEntitySet="Payments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ReservationId" ColumnName="ReservationId" />
+          <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+          <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentTypes">
+      <EntityTypeMapping TypeName="FastParkModel.PaymentType">
+        <MappingFragment StoreEntitySet="PaymentTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservations">
+      <EntityTypeMapping TypeName="FastParkModel.Reservation">
+        <MappingFragment StoreEntitySet="Reservations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SlotId" ColumnName="SlotId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+          <ScalarProperty Name="StartReservationDate" ColumnName="StartReservationDate" />
+          <ScalarProperty Name="EndReservationDate" ColumnName="EndReservationDate" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Slots">
+      <EntityTypeMapping TypeName="FastParkModel.Slot">
+        <MappingFragment StoreEntitySet="Slots">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+          <ScalarProperty Name="ActiveField" ColumnName="ActiveField" />
+          <ScalarProperty Name="Identifier" ColumnName="Identifier" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
